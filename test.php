@@ -17,16 +17,16 @@ curl_close($ch);
 
 //Print the data out onto the page.
 $data_decode = json_decode($data, true);
-var_dump($data_decode);
+//var_dump($data_decode);
 
 date_default_timezone_set('Iceland'); // Set the time of the server of the Forum
-$time_2weeks = strtotime("-2 days");
+$time_between_posts = strtotime("-2 days");
 // echo date('Y-m-d- H:i:s',$time_2weeks);
 
 
 foreach ($data_decode['posts'] as $value)
 {
-    if (date("Y-m-d\TH:i:s.000\Z", $time_2weeks) < $value['updated_at']) //Post in the last 2 days.
+    if (date("Y-m-d\TH:i:s.000\Z", $time_between_posts) < $value['created_at'] && $value['comment_count'] == 0) //Post in the last 2 days and with no comments
     {
         //Curl service to publish on Slack
        $messageDataSend = "{
@@ -47,7 +47,7 @@ foreach ($data_decode['posts'] as $value)
           ]
         }";
 
-        $url = "https://hooks.slack.com/services/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";
+        $url = "https://hooks.slack.com/services/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";
         $ch2 = curl_init($url);
 
         curl_setopt($ch2, CURLOPT_POST, 1);
