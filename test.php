@@ -20,7 +20,7 @@ $data_decode = json_decode($data, true);
 //var_dump($data_decode);
 
 date_default_timezone_set('Iceland'); // Set the time of the server of the Forum
-$time_between_posts = strtotime("-4 days");
+$time_between_posts = strtotime("-1 days");
 
 
 foreach ($data_decode['posts'] as $value)
