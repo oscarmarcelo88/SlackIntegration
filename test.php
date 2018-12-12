@@ -20,16 +20,15 @@ $data_decode = json_decode($data, true);
 //var_dump($data_decode);
 
 date_default_timezone_set('Iceland'); // Set the time of the server of the Forum
-$time_between_posts = strtotime("-2 days");
-// echo date('Y-m-d- H:i:s',$time_2weeks);
+$time_between_posts = strtotime("-4 days");
 
 
 foreach ($data_decode['posts'] as $value)
 {
     if (date("Y-m-d\TH:i:s.000\Z", $time_between_posts) < $value['created_at'] && $value['comment_count'] == 0) //Post in the last 2 days and with no comments
     {
-        //Curl service to publish on Slack
-       $messageDataSend = "{
+        $value['details']= str_replace("'","",$value['details']); //remove the ' from the text
+        $messageDataSend = "{
        'text': '*".strip_tags($value['title'])."*\n".strip_tags($value['details'])."',
        'username': 'MPS_Forum',
        'channel': 'C061EG9SL',
